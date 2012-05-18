@@ -18,14 +18,14 @@
   .field
     = f.label :department
     %br/
-    = f.text_field :department
+    = f.select :department, available_departments
   .field
     = f.label :status
     %br/
-    = f.text_field :status
+    = f.select :status, available_statuses
   .field
     = f.label :employee
     %br/
-    = f.text_field :employee
+    = f.collection_select :employee_id, Employee.all, :id, :login, :include_blank => true
   .actions
     = f.submit
