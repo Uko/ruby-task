@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h1
+      Welcome, #{@ticket.customer_name}
+    %p
+      We've received your ticket and will soon contact you.
+      %br/
+    %p
+      Your ticket's id is: #{@ticket.id}.
+    %p
+      You can view your ticket by visiting: 
+      = link_to "this link", ticket_url(@ticket)
