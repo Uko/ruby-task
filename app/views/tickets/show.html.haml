@@ -16,10 +16,37 @@
   = @ticket.status
 %p
   %b Responsible:
-  = @ticket.employee || "None"
+  = @ticket.employee ? @ticket.employee.login : "None"
 %p
   %b Description:
   %br/
   = @ticket.description
+
+= form_for(@ticket) do |f|
+  - if @ticket.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@ticket.errors.count, "error")
+        prohibited this ticket from being saved:
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+          
+  = fields_for @reply do |reply_f|
+    .field
+      = reply_f.label :text, "Comment:"
+      %br/
+      = reply_f.text_area :text
+
+  .actions
+    = f.submit
+
+- unless @ticket.replies.nil?
+  - @ticket.replies.order("created_at DESC").each do |reply|
+    .reply
+      %p= reply.created_at
+      -unless reply.meta.nil? || reply.meta.empty?
+        %pre= reply.meta
+      %p= reply.text
 
 =link_to 'Back', tickets_path

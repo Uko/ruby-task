@@ -1,6 +1,7 @@
 OnAppTask::Application.routes.draw do
-	resources :tickets, :only => [:index, :create, :new, :show] do
+	resources :tickets, :only => [:index, :create, :new, :show, :update] do
 		get 'login', :on => :collection
+		post 'authenticate', :on => :collection
 		get 'logout', :on => :collection
 	end
 

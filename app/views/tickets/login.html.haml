@@ -1,6 +1,6 @@
 %p Enter your email to see your questions
 
-=form_tag "/tickets", :method => :get do
+=form_tag authenticate_tickets_path do
   .field
     = label_tag "Mail:"
     %br/
