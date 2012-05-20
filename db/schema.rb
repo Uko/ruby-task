@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120520153531) do
+ActiveRecord::Schema.define(:version => 20120520214932) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20120520153531) do
     t.integer  "ticket_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "author"
   end
 
   add_index "replies", ["ticket_id"], :name => "index_replies_on_ticket_id"

@@ -61,6 +61,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
 		@ticket.status = 'Waiting for Staff Response'
 		@reply = @ticket.replies.build(params[:reply])
+		@reply.author = @ticket.customer_name
     respond_to do |format|
       if @reply.save
 				@ticket.save

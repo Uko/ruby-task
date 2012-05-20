@@ -1,6 +1,6 @@
 class Reply < ActiveRecord::Base
   belongs_to :ticket
-  attr_accessible :text, :changes
+  attr_accessible :text, :changes, :author
 
-	validates :text, :presence => true
+	validates :text, :author, :presence => true
 end

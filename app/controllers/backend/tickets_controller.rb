@@ -43,6 +43,7 @@ class Backend::TicketsController < Backend::ApplicationController
 		end
 		@reply = @ticket.replies.build(params[:reply])
 		@reply.meta = changes
+		@reply.author = current_user.login
     respond_to do |format|
       if @ticket.valid? && @reply.valid?
 				@ticket.save

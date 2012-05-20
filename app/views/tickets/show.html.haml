@@ -44,7 +44,11 @@
 - unless @ticket.replies.nil?
   - @ticket.replies.order("created_at DESC").each do |reply|
     .reply
-      %p= reply.created_at
+      %p
+        At
+        = reply.created_at
+        by
+        = reply.author
       -unless reply.meta.nil? || reply.meta.empty?
         %pre= reply.meta
       %p= reply.text
