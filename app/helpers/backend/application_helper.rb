@@ -1,0 +1,3 @@
+module Backend::ApplicationHelper
+
+end

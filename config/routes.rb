@@ -1,6 +1,15 @@
 OnAppTask::Application.routes.draw do
+	resources :tickets, :only => [:index, :create, :new, :show] do
+		get 'login', :on => :collection
+		get 'logout', :on => :collection
+	end
 
-  resources :tickets, :sessions
+	resources :sessions
+
+	namespace :backend do
+	  root to: "tickets#index"
+	  resources :tickets
+	end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

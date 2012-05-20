@@ -1,6 +1,8 @@
 class Ticket < ActiveRecord::Base
   belongs_to :employee
-  attr_accessible :customer_mail, :customer_name, :subject, :department, :description, :status
+  attr_accessible :customer_mail, :customer_name, :subject, :department, :description, :status, :employee_id
+	
+	has_many :replies, :dependent => :destroy
 
 	after_initialize :default_values
 

@@ -1,23 +1,23 @@
 %h1 Listing tickets
-%table
-  %tr
-    %th Customer name
-    %th Customer mail
-    %th Department
-    %th Status
-    %th Employee
-    %th
-    %th
-    %th
+
+- if @email
+  %p
+    Your email is: #{@email} [
+    = link_to 'change', login_tickets_path
+    ] [
+    = link_to 'sign out', logout_tickets_path
+    ]
+- else
+  %p
+    To see your questions
+    = link_to 'sign in', login_tickets_path
+    with your email
+
+= link_to 'New Question', new_ticket_path
+  
+-unless @tickets.nil?
   - @tickets.each do |ticket|
-    %tr
-      %td= ticket.customer_name
-      %td= ticket.customer_mail
-      %td= ticket.department
-      %td= ticket.status
-      %td= ticket.employee
-      %td= link_to 'Show', ticket
-      %td= link_to 'Edit', edit_ticket_path(ticket)
-      %td= link_to 'Destroy', ticket, confirm: 'Are you sure?', method: :delete
-%br/
-= link_to 'New Ticket', new_ticket_path
+    .ticket
+      %h3= ticket.subject
+      %p Department: #{ticket.department} | Responsible: #{ticket.employee || "None"} | Status: #{ticket.status}
+      = link_to 'More…', ticket

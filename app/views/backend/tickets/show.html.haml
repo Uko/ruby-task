@@ -1,0 +1,57 @@
+%p#notice= notice
+%p
+  %b Customer name:
+  = @ticket.customer_name
+%p
+  %b Customer mail:
+  = @ticket.customer_mail
+%p
+  %b Department:
+  = @ticket.department
+%p
+  %b Status:
+  = @ticket.status
+%p
+  %b Employee:
+  = @ticket.employee.login
+%p
+  %b Description:
+  = @ticket.description
+
+= form_for([:backend ,@ticket]) do |f|
+  - if @ticket.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@ticket.errors.count, "error")
+        prohibited this ticket from being saved:
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :status
+    %br/
+    = f.select :status, available_statuses
+  .field
+    = f.label :employee
+    %br/
+    = f.collection_select :employee_id, Employee.all, :id, :login
+    
+  = fields_for @reply do |reply_f|
+    .field
+      = reply_f.label :text, "Comment:"
+      %br/
+      = reply_f.text_area :text
+    
+  .actions
+    = f.submit
+    
+
+- unless @ticket.replies.nil?
+  - @ticket.replies.order("created_at DESC").each do |reply|
+    .reply
+      %p= reply.created_at
+      %pre= reply.meta
+      %p= reply.text
+        
+
+=link_to 'Back', tickets_path
