@@ -3,7 +3,7 @@
   .field
     = label_tag :login
     %br/
-    = text_field_tag :login, params[:login]
+    = text_field_tag :login, @login || params[:login]
   .field
     = label_tag :password
     %br/

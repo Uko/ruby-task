@@ -2,10 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
 	private
-	
-	def current_employee
-		Employee.find session[:employee_id]
+
+	def current_user
+		session[:employee_id]? Employee.find(session[:employee_id]) : nil
 	end
 	
-	helper_method :current_employee
+	def authenticate
+		if current_user.nil?
+			render :status => :forbidden, :text => "Forbidden!!!"
+		end
+	end
+	
+	helper_method :current_user
 end
