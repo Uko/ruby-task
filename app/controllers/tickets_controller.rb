@@ -2,8 +2,9 @@ class TicketsController < ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
-
+		session[:email] = params[:email] if params.key? :email
+    @tickets = Ticket.find_all_by_customer_mail session[:email] unless session[:email].nil?
+		@email = session[:email]
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tickets }
@@ -25,7 +26,7 @@ class TicketsController < ApplicationController
   # GET /tickets/new.json
   def new
     @ticket = Ticket.new
-
+		@ticket.customer_mail ||= session[:email]
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @ticket }
@@ -81,4 +82,13 @@ class TicketsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+	def login
+		@email = session[:email]
+	end
+	
+	def logout
+		session[:email] = nil
+		redirect_to tickets_path
+	end
 end

@@ -1,0 +1,23 @@
+%h1 Listing tickets
+
+- if @email
+  %p
+    Your email is: #{@email} [
+    = link_to 'change', login_tickets_path
+    ] [
+    = link_to 'sign out', logout_tickets_path
+    ]
+- else
+  %p
+    To see your questions
+    = link_to 'sign in', login_tickets_path
+    with your email
+
+= link_to 'New Question', new_ticket_path
+  
+-unless @tickets.nil?
+  - @tickets.each do |ticket|
+    .ticket
+      %h3= ticket.subject
+      %p Department: #{ticket.department} | Responsible: #{ticket.employee || "None"} | Status: #{ticket.status}
+      = link_to 'More…', ticket

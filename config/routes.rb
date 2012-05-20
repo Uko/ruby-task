@@ -1,5 +1,8 @@
 OnAppTask::Application.routes.draw do
-  resources :tickets
+	resources :tickets do
+	  get 'login', :on => :collection
+		get 'logout', :on => :collection
+	end #, :only => [:create, :edit, :update]
 
 	namespace :backend do
 	  root to: "tickets#index"
