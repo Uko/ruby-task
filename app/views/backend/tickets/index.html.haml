@@ -1,23 +1,28 @@
 = link_to 'Logout', "/sessions/1", :confirm => 'Are you sure?', :method => :delete
 
 %h1 Listing tickets
+
+%nav
+  =link_to 'New', backend_tickets_path(:scope => "new")
+  =link_to 'Open', backend_tickets_path(:scope => "open")
+  =link_to 'On Hold', backend_tickets_path(:scope => "hold")
+  =link_to 'Closed', backend_tickets_path(:scope => "closed")
+
 %table
   %tr
+    %th ID
     %th Customer name
     %th Customer mail
     %th Department
     %th Status
     %th Employee
     %th
-    %th
-    %th
   - @tickets.each do |ticket|
     %tr
+      %td= ticket.id
       %td= ticket.customer_name
       %td= ticket.customer_mail
       %td= ticket.department
       %td= ticket.status
-      %td= ticket.employee
-      %td= link_to 'Show', ticket
-%br/
-= link_to 'New Ticket', new_ticket_path
+      %td= ticket.employee ? ticket.employee.login : "None"
+      %td= link_to 'Show', backend_ticket_path(ticket, :scope => @scope)

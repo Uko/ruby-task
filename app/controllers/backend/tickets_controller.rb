@@ -2,9 +2,22 @@ class Backend::TicketsController < Backend::ApplicationController
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
-		puts @tickets
-		puts "elllllp"
+		unless %w(new open hold closed).include?(params[:scope])
+			redirect_to backend_tickets_path :scope => "new"
+			return
+		end
+		case params[:scope]
+			when "new"
+				@tickets = Ticket.order("updated_at DESC").where(:employee_id => nil)
+			when "open"
+				@tickets = Ticket.order("updated_at DESC").find_all_by_status(['Waiting for Customer', 'Waiting for Staff Response'])
+			when "hold"
+				@tickets = Ticket.order("updated_at DESC").find_all_by_status('On Hold')
+			when "closed"
+					@tickets = Ticket.order("updated_at DESC").find_all_by_status(['Cancelled', 'Completed'])
+		end
+		@scope = params[:scope]
+    #@tickets = Ticket.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tickets }
@@ -17,6 +30,7 @@ class Backend::TicketsController < Backend::ApplicationController
     @ticket = Ticket.find(params[:id])
 		@reply = @ticket.replies.build
 		
+		@scope = params[:scope]
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @ticket }
@@ -33,9 +47,10 @@ class Backend::TicketsController < Backend::ApplicationController
   def update
     @ticket = Ticket.find(params[:id])
 		changes = ""
-		unless params[:ticket][:employee_id].to_i == @ticket.employee.id
-			changes += "> Responsible changed from #{@ticket.employee.login} to #{Employee.find(params[:ticket][:employee_id]).login}"
-			@ticket.employee = Employee.find(params[:ticket][:employee_id])
+		new_employee = params[:ticket][:employee_id].nil? || params[:ticket][:employee_id].empty?  ? nil : Employee.find(params[:ticket][:employee_id])
+		unless new_employee == @ticket.employee
+			changes += "> Responsible changed from #{@ticket.employee ? @ticket.employee.login : "None"} to #{new_employee.login}"
+			@ticket.employee = new_employee
 		end
 		unless params[:ticket][:status] == @ticket.status
 			changes += $/ + "> Status changed from \"#{@ticket.status}\" to \"#{params[:ticket][:status]}\""

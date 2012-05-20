@@ -13,7 +13,7 @@
   = @ticket.status
 %p
   %b Employee:
-  = @ticket.employee.login
+  = @ticket.employee ? @ticket.employee.login : "None"
 %p
   %b Description:
   = @ticket.description
@@ -34,7 +34,7 @@
   .field
     = f.label :employee
     %br/
-    = f.collection_select :employee_id, Employee.all, :id, :login
+    = f.collection_select :employee_id, Employee.all, :id, :login, :include_blank => (@ticket.employee.nil?)
     
   = fields_for @reply do |reply_f|
     .field
@@ -59,4 +59,4 @@
       %p= reply.text
         
 
-=link_to 'Back', tickets_path
+=link_to 'Back', backend_tickets_path(:scope => @scope)
