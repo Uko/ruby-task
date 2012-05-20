@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %b Customer name:
+  = @ticket.customer_name
+%p
+  %b Customer mail:
+  = @ticket.customer_mail
+%p
+  %b Department:
+  = @ticket.department
+%p
+  %b Status:
+  = @ticket.status
+%p
+  %b Employee:
+  = @ticket.employee
+= link_to 'Edit', edit_ticket_path(@ticket)
+
+=link_to 'Back', tickets_path

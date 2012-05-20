@@ -1,6 +1,11 @@
 OnAppTask::Application.routes.draw do
   resources :tickets
 
+	namespace :backend do
+	  root to: "tickets#index"
+	  resources :tickets
+	end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
