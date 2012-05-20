@@ -1,5 +1,6 @@
 OnAppTask::Application.routes.draw do
-  resources :tickets
+
+  resources :tickets, :sessions
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
