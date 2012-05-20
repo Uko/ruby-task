@@ -6,14 +6,20 @@
   %b Customer mail:
   = @ticket.customer_mail
 %p
+  %b Question subject:
+    = @ticket.subject
+%p
   %b Department:
   = @ticket.department
 %p
   %b Status:
   = @ticket.status
 %p
-  %b Employee:
-  = @ticket.employee
-= link_to 'Edit', edit_ticket_path(@ticket)
+  %b Responsible:
+  = @ticket.employee || "None"
+%p
+  %b Description:
+  %br/
+  = @ticket.description
 
 =link_to 'Back', tickets_path

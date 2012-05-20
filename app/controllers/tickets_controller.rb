@@ -33,11 +33,6 @@ class TicketsController < ApplicationController
     end
   end
 
-  # GET /tickets/1/edit
-  def edit
-    @ticket = Ticket.find(params[:id])
-  end
-
   # POST /tickets
   # POST /tickets.json
   def create
@@ -55,38 +50,12 @@ class TicketsController < ApplicationController
     end
   end
 
-  # PUT /tickets/1
-  # PUT /tickets/1.json
-  def update
-    @ticket = Ticket.find(params[:id])
-
-    respond_to do |format|
-      if @ticket.update_attributes(params[:ticket])
-        format.html { redirect_to @ticket, notice: 'Ticket was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @ticket.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /tickets/1
-  # DELETE /tickets/1.json
-  def destroy
-    @ticket = Ticket.find(params[:id])
-    @ticket.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tickets_url }
-      format.json { head :no_content }
-    end
-  end
-
+	# GET /tickets/login
 	def login
 		@email = session[:email]
 	end
 	
+	# GET /tickets/logout
 	def logout
 		session[:email] = nil
 		redirect_to tickets_path
