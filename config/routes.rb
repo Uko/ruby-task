@@ -12,7 +12,9 @@ OnAppTask::Application.routes.draw do
 
 	namespace :backend do
 	  root to: "tickets#index"
-	  resources :tickets, :only => [:index, :show, :update]
+	  resources :tickets, :only => [:index, :show, :update] do
+			post 'search', :on => :collection
+		end
 	end
 
 end

@@ -68,4 +68,16 @@ class Backend::TicketsController < Backend::ApplicationController
     end
   end
 
+	def search
+		if params[:search][:search].empty?
+			@tickets = []
+		else
+			if Ticket.exists? params[:search][:search]
+				redirect_to backend_ticket_path Ticket.find params[:search][:search]
+			else
+				@tickets = Ticket.order("updated_at DESC").where('subject LIKE ?', "%#{params[:search][:search]}%").all
+			end
+		end
+	end
+
 end

@@ -1,0 +1,10 @@
+= link_to 'Logout', "/sessions/1", :confirm => 'Are you sure?', :method => :delete
+
+%h1 Search results
+
+=link_to 'Back to index', backend_tickets_path
+
+-if @tickets.nil? || @tickets.empty?
+  %p nothing found
+-else
+  = render "table"

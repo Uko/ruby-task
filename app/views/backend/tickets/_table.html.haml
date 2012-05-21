@@ -1,0 +1,18 @@
+%table
+  %tr
+    %th ID
+    %th Subject
+    %th Customer
+    %th Status
+    %th Responsible
+    %th Department
+    %th
+  - @tickets.each do |ticket|
+    %tr
+      %td= ticket.id
+      %td= ticket.subject[0,20]
+      %td= ticket.customer_name
+      %td= ticket.status
+      %td= ticket.employee ? ticket.employee.login : "None"
+      %td= ticket.department
+      %td= link_to 'Show', backend_ticket_path(ticket, :scope => @scope)
