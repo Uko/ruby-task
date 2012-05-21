@@ -42,9 +42,10 @@ class TicketsController < ApplicationController
   # POST /tickets.json
   def create
     @ticket = Ticket.new(params[:ticket])
-
+		@ticket.status ||= Status.find_by_name 'Waiting for Staff Response'
     respond_to do |format|
       if @ticket.save
+				session[:email] = params[:ticket][:customer_mail]
 				CustomerSupport.new_ticket_email(@ticket).deliver
         format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
         format.json { render json: @ticket, status: :created, location: @ticket }
