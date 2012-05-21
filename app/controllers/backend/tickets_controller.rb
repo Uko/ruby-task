@@ -37,11 +37,6 @@ class Backend::TicketsController < Backend::ApplicationController
     end
   end
 
-  # GET /tickets/1/edit
-  def edit
-    @ticket = Ticket.find(params[:id])
-  end
-
   # PUT /tickets/1
   # PUT /tickets/1.json
   def update
@@ -73,15 +68,4 @@ class Backend::TicketsController < Backend::ApplicationController
     end
   end
 
-  # DELETE /tickets/1
-  # DELETE /tickets/1.json
-  def destroy
-    @ticket = Ticket.find(params[:id])
-    @ticket.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tickets_url }
-      format.json { head :no_content }
-    end
-  end
 end
