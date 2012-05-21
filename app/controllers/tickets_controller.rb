@@ -42,7 +42,7 @@ class TicketsController < ApplicationController
   # POST /tickets.json
   def create
     @ticket = Ticket.new(params[:ticket])
-		@ticket.status ||= Status.find_by_name 'Waiting for Staff Response'
+		@ticket.status = Status.find_by_name 'Waiting for Staff Response'
     respond_to do |format|
       if @ticket.save
 				session[:email] = params[:ticket][:customer_mail]
@@ -60,7 +60,7 @@ class TicketsController < ApplicationController
   # PUT /tickets/1.json
   def update
     @ticket = Ticket.find(params[:id])
-		@ticket.status = 'Waiting for Staff Response'
+		@ticket.status = Status.find_by_name 'Waiting for Staff Response'
 		@reply = @ticket.replies.build(params[:reply])
 		@reply.author = @ticket.customer_name
     respond_to do |format|
