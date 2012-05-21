@@ -1,0 +1,10 @@
+:plain
+  Dear, #{@ticket.customer_name}
+  
+  #{@reply.author} has commented on your ticket: #{@ticket.subject}:
+  
+  #{@reply.text}
+  
+  Your ticket's id is: #{@ticket.id}.
+
+  You can view your ticket by visiting: #{ticket_url @ticket}

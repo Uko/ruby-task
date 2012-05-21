@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %h1
+      Dear, #{@ticket.customer_name}
+    %p
+      #{@reply.author} has commented on your ticket: #{@ticket.subject}:
+      %br/
+      = @reply.text
+    -unless @reply.meta.nil? || @reply.meta.empty?
+      %p
+        The next changes have been made:
+      %pre
+        = @reply.meta
+    %p
+      Your ticket's id is: #{@ticket.id}.
+    %p
+      You can view your ticket by visiting: 
+      = link_to "this link", ticket_url(@ticket)

@@ -63,6 +63,7 @@ class Backend::TicketsController < Backend::ApplicationController
       if @ticket.valid? && @reply.valid?
 				@ticket.save
 				@reply.save
+				CustomerSupport.update_ticket_email(@ticket,@reply).deliver
         format.html { redirect_to backend_ticket_path(@ticket), notice: 'Ticket was successfully updated.' }
         format.json { head :no_content }
       else
