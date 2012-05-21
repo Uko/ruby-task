@@ -13,7 +13,7 @@
   = @ticket.department
 %p
   %b Status:
-  = @ticket.status
+  = @ticket.status.name
 %p
   %b Responsible:
   = @ticket.employee ? @ticket.employee.login : "None"

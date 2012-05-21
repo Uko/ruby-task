@@ -10,11 +10,11 @@ class Backend::TicketsController < Backend::ApplicationController
 			when "new"
 				@tickets = Ticket.order("updated_at DESC").where(:employee_id => nil)
 			when "open"
-				@tickets = Ticket.order("updated_at DESC").find_all_by_status(['Waiting for Customer', 'Waiting for Staff Response'])
+				@tickets = (Status.find_by_name('Waiting for Staff Response').tickets+Status.find_by_name('Waiting for Customer').tickets).sort_by {|ticket| -ticket.updated_at.to_f}
 			when "hold"
-				@tickets = Ticket.order("updated_at DESC").find_all_by_status('On Hold')
+				@tickets = Status.find_by_name('On Hold').tickets.order("updated_at DESC")
 			when "closed"
-					@tickets = Ticket.order("updated_at DESC").find_all_by_status(['Cancelled', 'Completed'])
+					@tickets = @tickets = (Status.find_by_name('Cancelled').tickets+Status.find_by_name('Completed').tickets).sort_by {|ticket| -ticket.updated_at.to_f}
 		end
 		@scope = params[:scope]
     #@tickets = Ticket.all
@@ -47,9 +47,10 @@ class Backend::TicketsController < Backend::ApplicationController
 			changes += "> Responsible changed from #{@ticket.employee ? @ticket.employee.login : "None"} to #{new_employee.login}"
 			@ticket.employee = new_employee
 		end
-		unless params[:ticket][:status] == @ticket.status
-			changes += $/ + "> Status changed from \"#{@ticket.status}\" to \"#{params[:ticket][:status]}\""
-			@ticket.status = params[:ticket][:status]
+		new_status = params[:ticket][:status_id].nil? || params[:ticket][:status_id].empty?  ? nil : Status.find(params[:ticket][:status_id])
+		unless new_status == @ticket.status
+			changes += $/ + "> Status changed from \"#{@ticket.status ? @ticket.status.name : "None"}\" to \"#{new_status.name}\""
+			@ticket.status = new_status
 		end
 		@reply = @ticket.replies.build(params[:reply])
 		@reply.meta = changes

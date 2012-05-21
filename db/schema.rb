@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120520214932) do
+ActiveRecord::Schema.define(:version => 20120521021340) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -46,16 +46,22 @@ ActiveRecord::Schema.define(:version => 20120520214932) do
 
   add_index "replies", ["ticket_id"], :name => "index_replies_on_ticket_id"
 
+  create_table "statuses", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "tickets", :force => true do |t|
     t.string   "customer_name"
     t.string   "customer_mail"
     t.string   "department"
-    t.string   "status"
     t.integer  "employee_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.text     "description"
     t.string   "subject"
+    t.integer  "status_id"
   end
 
   add_index "tickets", ["employee_id"], :name => "index_tickets_on_employee_id"
